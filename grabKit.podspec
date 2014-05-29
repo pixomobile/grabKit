@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   s.ios.frameworks = 'Accounts', 'AdSupport', 'AssetsLibrary', 'CFNetwork', 'QuartzCore', 'Security', 'Social', 'SystemConfiguration'
 
   s.subspec 'GData' do |gdata|
-    gdata.dependency 'GData', '~> 0.0.1'  
+    gdata.dependency 'GData', '~> 1.12'  
     gdata.requires_arc = false
   end
 
