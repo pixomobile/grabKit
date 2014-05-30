@@ -38,6 +38,6 @@ Pod::Spec.new do |s|
   s.dependency 'objectiveflickr', '~> 2.0.2'
   s.dependency 'GData', '0.0.1'
 
-  s.ios.frameworks = 'Accounts', 'AdSupport', 'AssetsLibrary', 'CFNetwork', 'QuartzCore', 'Security', 'Social', 'SystemConfiguration'
+  s.ios.frameworks = 'Accounts',  'AssetsLibrary', 'CFNetwork', 'QuartzCore', 'Security', 'Social', 'SystemConfiguration'
 
 end
