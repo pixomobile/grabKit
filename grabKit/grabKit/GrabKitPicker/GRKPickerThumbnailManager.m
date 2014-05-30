@@ -105,6 +105,9 @@ NSUInteger maxNumberOfThumbnailsToDownloadSimultaneously = 5;
 
 -(void) cacheThumbnail:(UIImage*)thumbnailImage forURL:(NSURL*)thumbnailURL andSize:(CGSize)size{
     
+    if (thumbnailImage == nil)
+      return; 
+      
     NSData * thumbnailData = UIImageJPEGRepresentation(thumbnailImage, 0);
     
     int thumbnailCost = [thumbnailData length];
