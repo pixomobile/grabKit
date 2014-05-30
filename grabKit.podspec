@@ -26,7 +26,9 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   
   s.source_files = 'grabKit/grabKit/**/*.{h,m}'
-
+  
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2' }
+  
   s.ios.resource_bundle = { 'grabKitBundle' => 'grabKit/grabKit/GrabKitPicker/Resources/*'}
 
   s.dependency 'Facebook-iOS-SDK', '~> 3.2.0'
