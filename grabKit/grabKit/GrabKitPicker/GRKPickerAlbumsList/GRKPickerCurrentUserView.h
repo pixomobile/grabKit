@@ -23,7 +23,6 @@
 
 
 #import <UIKit/UIKit.h>
-#import "NVUIGradientButton.h"
 
 @class GRKPickerCurrentUserView;
 
@@ -47,12 +46,9 @@
     
     IBOutlet UILabel * _labelUsername;
     
-    IBOutlet NVUIGradientButton * _buttonLogout;
+    IBOutlet UIButton * _buttonLogout;
 
     __weak id<GRKPickerCurrentUserViewDelegate> _delegate;
-    
-    id gradient;
-    
 }
 
 @property (nonatomic, weak) id<GRKPickerCurrentUserViewDelegate> delegate;

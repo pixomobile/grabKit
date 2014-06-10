@@ -31,10 +31,9 @@ Pod::Spec.new do |s|
   
   s.ios.resource_bundle = { 'GrabKitBundle' => ['grabKit/grabKit/GrabKitPicker/Resources/*', 'grabKit/grabKit/**/*.{xib}']}
 
-  s.dependency 'Facebook-iOS-SDK', '~> 3.2.0'
+  s.dependency 'Facebook-iOS-SDK'
   s.dependency 'ISO8601DateFormatter', '~> 0.6'
   s.dependency 'MBProgressHUD', '~> 0.6'
-  s.dependency 'NVUIGradientButton', '~> 1.3.0'
   s.dependency 'objectiveflickr', '~> 2.0.2'
   s.dependency 'GData', '0.0.1'
 

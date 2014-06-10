@@ -25,21 +25,8 @@
 #import "GRKPickerPhotosListThumbnail.h"
 #import "GRKPickerViewController.h"
 
-static UIImage * thumbnailPlaceholderImage;
-
 @implementation GRKPickerPhotosListThumbnail
 
-
-+(UIImage*)sharedThumbnailPlaceholderImage {
-    
-    if ( thumbnailPlaceholderImage == nil ){
-        NSString * path = [GRK_BUNDLE pathForResource:@"thumbnail_placeholder" ofType:@"png"];
-        thumbnailPlaceholderImage = [UIImage imageWithContentsOfFile:path];
-    }
-    
-    
-    return thumbnailPlaceholderImage;
-}
 
 -(id)initWithCoder:(NSCoder *)aDecoder {
     
@@ -66,15 +53,14 @@ static UIImage * thumbnailPlaceholderImage;
 }
 
 -(void) buildViews {
-    
-    UIImageView * backgroundImage = [[UIImageView alloc] initWithFrame:self.bounds];
-    [backgroundImage setImage:[GRKPickerPhotosListThumbnail sharedThumbnailPlaceholderImage]];
-    self.backgroundView = backgroundImage;
-    
+    CALayer * layer = self.layer;
+    layer.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0].CGColor;
+    layer.borderWidth = 1.0;
+    layer.borderColor = [UIColor colorWithWhite:0.6 alpha:1.0].CGColor;
+
     // The imageView's frame is 1px smaller in every directions, in order to show the 1px-wide black border of the background image.
-    CGRect thumbnailRect = CGRectMake(1, 1, self.bounds.size.width -2 , self.bounds.size.height -2 );
+    CGRect thumbnailRect = CGRectMake(1, 1, self.bounds.size.width - 2 , self.bounds.size.height - 2 );
     thumbnailImageView = [[UIImageView alloc] initWithFrame:thumbnailRect];
-//    [self addSubview:thumbnailImageView];
     [self.contentView addSubview:thumbnailImageView];
     
     NSString * path = [GRK_BUNDLE pathForResource:@"thumbnail_selected" ofType:@"png"];
@@ -86,8 +72,6 @@ static UIImage * thumbnailPlaceholderImage;
                                           selectedIconSize,
                                           selectedIconSize );
     selectedImageView.alpha = .0;
-    
-    
 }
 
 

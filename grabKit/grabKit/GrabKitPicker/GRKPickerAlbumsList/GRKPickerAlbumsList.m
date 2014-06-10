@@ -503,6 +503,9 @@ NSUInteger kMaximumRetriesCount = 1;
  
     self.tableView.rowHeight = 80.0;
  
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
 }
 
 - (void)viewDidUnload
