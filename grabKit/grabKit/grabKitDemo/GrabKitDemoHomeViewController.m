@@ -25,6 +25,7 @@
 #import "GrabKit.h"
 #import "GRKPickerViewController.h"
 #import "GRKAlbum.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface GrabKitDemoHomeViewController ()
 
