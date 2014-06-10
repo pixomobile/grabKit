@@ -59,7 +59,7 @@
         
         #if GRK_FLICKR_SERVICE
         NSDictionary * flickr = [NSDictionary dictionaryWithObjectsAndKeys:@"GRKFlickrGrabber", @"class", 
-                                 @"FlickR", @"title",
+                                 @"Flickr", @"title",
                                  nil];
         [services addObject:flickr];
         #endif
@@ -73,7 +73,8 @@
         
         #if GRK_PICASA_SERVICE
         NSDictionary * picasa = [NSDictionary dictionaryWithObjectsAndKeys:@"GRKPicasaGrabber", @"class", 
-                                 @"Picasa", @"title",
+                                 @"Google+/Picasa", @"title",
+                                 @"Picasa", @"image",
                                  nil];
         [services addObject:picasa];
         #endif
@@ -200,11 +201,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    NSString * serviceName = [(NSDictionary *)[services objectAtIndex:indexPath.row] objectForKey:@"title"];
-    cell.textLabel.text = serviceName;
+    NSDictionary * service = (NSDictionary *)[services objectAtIndex:indexPath.row];
+    NSString * title = service[@"title"];
+    NSString * image = [service objectForKey:@"image"] ? : title;
+    cell.textLabel.text = title;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    NSString * path = [GRK_BUNDLE pathForResource:[serviceName lowercaseString] ofType:@"png"];
+    NSString * path = [GRK_BUNDLE pathForResource:[image lowercaseString] ofType:@"png"];
     cell.imageView.image = [UIImage imageWithContentsOfFile:path];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
 
