@@ -27,6 +27,23 @@
 #import "GRKPickerServicesList.h"
 #import "GRKPickerAlbumsList.h"
 
+@interface GRKPickerServiceCell : UITableViewCell
+
+@end
+
+@implementation GRKPickerServiceCell
+
+-(void) layoutSubviews
+{
+    [super layoutSubviews];
+    self.imageView.frame = CGRectInset(self.imageView.frame, 5, 5);
+    self.imageView.clipsToBounds = TRUE;
+    CALayer * layer = self.imageView.layer;
+    layer.cornerRadius = 8;
+}
+
+@end
+
 
 @implementation GRKPickerServicesList
 
@@ -111,7 +128,7 @@
     
     self.navigationItem.title = GRK_i18n(@"GRK_SERVICES_LIST_TITLE", @"Network");
 
-    self.tableView.rowHeight = 54;
+    self.tableView.rowHeight = 58;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -119,6 +136,9 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(didTouchCancelButton)];
  
@@ -198,7 +218,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[GRKPickerServiceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     NSDictionary * service = (NSDictionary *)[services objectAtIndex:indexPath.row];
@@ -209,7 +229,6 @@
 
     NSString * path = [GRK_BUNDLE pathForResource:[image lowercaseString] ofType:@"png"];
     cell.imageView.image = [UIImage imageWithContentsOfFile:path];
-    cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
 
     return cell;
 }
