@@ -117,21 +117,7 @@ NSUInteger kCellHeight = 75;
     _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_collectionView registerClass:[GRKPickerPhotosListThumbnail class] forCellWithReuseIdentifier:@"pickerPhotosCell"];
 
-
-
-    // If the navigation bar is translucent, it'll recover the top part of the tableView
-    // Let's add some inset to the tableView to avoid this
-    // Nevertheless, we don't need to do it when the picker is in a popover, because the navigationBar is not visible
-    if ( ! [[GRKPickerViewController sharedInstance] isPresentedInPopover] && self.navigationController.navigationBar.translucent ){
-        
-        _collectionView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
-
-    }
-    
-
     [self.view addSubview:_collectionView];
-    
-    
 }
 
 - (void)viewDidUnload
