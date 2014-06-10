@@ -512,25 +512,6 @@ NSUInteger kMaximumRetriesCount = 1;
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    // If the navigation bar is translucent, it'll recover the top part of the tableView
-    // Let's add some inset to the tableView to avoid this
-    // Nevertheless, we don't need to do it when the picker is in a popover, because the navigationBar is not visible
-    if ( ! [[GRKPickerViewController sharedInstance] isPresentedInPopover] && self.navigationController.navigationBar.translucent ){
-
-        self.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
-        
-    }
-
-    
-    
-}
-
-
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
