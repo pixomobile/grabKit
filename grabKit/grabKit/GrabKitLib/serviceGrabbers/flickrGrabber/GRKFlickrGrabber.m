@@ -30,7 +30,7 @@
 
 #import "GRKFlickrQueriesQueue.h"
 
-static NSString *kGRKServiceNameFlickr = @"FlickR";
+static NSString *kGRKServiceNameFlickr = @"Flickr";
 
 @interface GRKFlickrGrabber()
 -(BOOL) isResultForAlbumsInTheExpectedFormat:(id)result;
