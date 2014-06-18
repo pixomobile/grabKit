@@ -91,7 +91,7 @@
         #if GRK_PICASA_SERVICE
         NSDictionary * picasa = [NSDictionary dictionaryWithObjectsAndKeys:@"GRKPicasaGrabber", @"class", 
                                  @"Google+/Picasa", @"title",
-                                 @"Picasa", @"image",
+                                 @"Google", @"image",
                                  nil];
         [services addObject:picasa];
         #endif

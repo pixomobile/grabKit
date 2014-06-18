@@ -33,7 +33,7 @@
 #import "GDataServiceGooglePhotos.h"
 #import "GDataBaseElements.h"
 
-static NSString *kGRKServiceNamePicasa = @"Picasa";
+static NSString *kGRKServiceNamePicasa = @"Google+";
 
 @interface GRKPicasaGrabber()
 -(GRKAlbum *) albumFromGDataEntryPhotoAlbum:(GDataEntryPhotoAlbum *) entry;
