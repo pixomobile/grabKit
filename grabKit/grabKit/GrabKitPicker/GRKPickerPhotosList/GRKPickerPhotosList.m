@@ -31,8 +31,8 @@
 // How many photos the grabber can load at a time
 NSUInteger kNumberOfPhotosPerPage = 32;
 
-NSUInteger kCellWidth = 75;
-NSUInteger kCellHeight = 75;
+NSUInteger kCellSize;
+NSUInteger kContentInset;
 
 @interface GRKPickerPhotosList()
     -(void) setState:(GRKPickerPhotosListState)newState;
@@ -45,6 +45,13 @@ NSUInteger kCellHeight = 75;
 @implementation GRKPickerPhotosList
 
 @synthesize album = _album;
+
++ (void)initialize
+{
+    bool isPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+    kCellSize = isPad ? 140 : 75;
+    kContentInset = isPad ? 10 : 4;
+}
 
 -(void)dealloc{
     
@@ -97,10 +104,10 @@ NSUInteger kCellHeight = 75;
     [super viewDidLoad];
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [flowLayout setItemSize:CGSizeMake(kCellWidth, kCellHeight)];
+    [flowLayout setItemSize:CGSizeMake(kCellSize, kCellSize)];
     [flowLayout setMinimumInteritemSpacing:1.0f];
     [flowLayout setMinimumLineSpacing:4.0f];
-    [flowLayout setSectionInset:UIEdgeInsetsMake(4, 4, 4, 4)];
+    [flowLayout setSectionInset:UIEdgeInsetsMake(kContentInset, kContentInset, kContentInset, kContentInset)];
 
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
@@ -435,7 +442,7 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
         for( GRKImage * image in [photo imagesSortedByHeight] ){
             
             // If the imageView for thumbnails is 75px wide, we need images with both dimensions greater or equal to 2*75px, for a perfect result on retina displays
-            if ( image.width >= kCellWidth*2 && image.height >= kCellHeight*2 ) {
+            if ( image.width >= kCellSize*2 && image.height >= kCellSize*2 ) {
                 
                 thumbnailURL = image.URL;
                 
