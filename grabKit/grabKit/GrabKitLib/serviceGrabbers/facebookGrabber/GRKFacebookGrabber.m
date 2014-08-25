@@ -191,7 +191,7 @@ static NSString *kGRKServiceNameFacebook = @"Facebook";
         
         
         //  First query of the batch : the tagged photos
-        NSString * graphPathFQL = @"fql";
+        NSString * graphPathFQL = @"v2.0/fql";
         NSMutableDictionary *paramsFQL = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                           @"SELECT '' FROM photo_tag WHERE subject=me()", @"q",
                                           nil];
