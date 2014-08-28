@@ -63,6 +63,8 @@
     // The imageView's frame is 1px smaller in every directions, in order to show the 1px-wide black border of the background image.
     CGRect thumbnailRect = CGRectMake(1, 1, self.bounds.size.width - 2 , self.bounds.size.height - 2 );
     thumbnailImageView = [[UIImageView alloc] initWithFrame:thumbnailRect];
+    thumbnailImageView.contentMode = UIViewContentModeScaleAspectFill;
+    thumbnailImageView.clipsToBounds = YES;
     [self.contentView addSubview:thumbnailImageView];
 
     NSString * path = [GRK_BUNDLE pathForResource:@"thumbnail_selected" ofType:@"png"];
