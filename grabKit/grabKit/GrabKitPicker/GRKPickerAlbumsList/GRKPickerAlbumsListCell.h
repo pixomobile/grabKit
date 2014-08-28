@@ -42,7 +42,7 @@
 @property (nonatomic, strong) IBOutlet UILabel * labelAlbumName;
 @property (nonatomic, strong) IBOutlet UILabel * labelPhotosCount;
 
--(void)updateThumbnailWithImage:(UIImage*)image animated:(BOOL)animated;
+-(void)updateThumbnailImage:(NSURL *)thumbnailURL;
 -(void)setAlbum:(GRKAlbum*)_newAlbum ;
 
 @end

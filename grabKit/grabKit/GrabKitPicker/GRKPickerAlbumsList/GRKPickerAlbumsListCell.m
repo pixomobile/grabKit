@@ -43,12 +43,9 @@
     return self;
 }
 
-
-
--(void)updateThumbnailWithImage:(UIImage*)image animated:(BOOL)animated {
-    
-    [self.thumbnail updateThumbnailWithImage:image animated:animated];
-    
+- (void)updateThumbnailImage:(NSURL *)thumbnailURL
+{
+    [self.thumbnail updateThumbnailImage:thumbnailURL];
 }
 
 

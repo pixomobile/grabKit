@@ -24,6 +24,8 @@
 
 #import "GRKPickerPhotosListThumbnail.h"
 #import "GRKPickerViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <UIImageView+AFNetworking.h>
 
 @implementation GRKPickerPhotosListThumbnail
 
@@ -62,7 +64,7 @@
     CGRect thumbnailRect = CGRectMake(1, 1, self.bounds.size.width - 2 , self.bounds.size.height - 2 );
     thumbnailImageView = [[UIImageView alloc] initWithFrame:thumbnailRect];
     [self.contentView addSubview:thumbnailImageView];
-    
+
     NSString * path = [GRK_BUNDLE pathForResource:@"thumbnail_selected" ofType:@"png"];
     UIImage * selectedIcon = [UIImage imageWithContentsOfFile:path];
     selectedImageView = [[UIImageView alloc] initWithImage:selectedIcon];
@@ -71,7 +73,8 @@
                                           0,
                                           selectedIconSize,
                                           selectedIconSize );
-    selectedImageView.alpha = .0;
+    selectedImageView.hidden = YES;
+    [self.contentView addSubview:selectedImageView];
 }
 
 
@@ -79,8 +82,7 @@
 -(void) prepareForReuse {
     
     [thumbnailImageView setImage:nil];
-//    [selectedImageView removeFromSuperview];
-    selectedImageView.alpha = 0;
+    selectedImageView.hidden = YES;
 
     // Fix for issue #27 https://github.com/pierrotsmnrd/grabKit/issues/27
     self.selected = NO;
@@ -88,49 +90,29 @@
 }
 
 
+-(void)updateThumbnailImage:(NSURL *)thumbnailURL
+{
+    thumbnailImageView.image = nil;
 
-
--(void)updateThumbnailWithImage:(UIImage*)image  animated:(BOOL)animated; {
-    
-    if ( thumbnailImageView.image == nil  &&  animated ){
-        
-            thumbnailImageView.alpha = .0;
-            [thumbnailImageView setImage:image];
-        
-            [UIView animateWithDuration:0.33 animations:^{
-                
-                thumbnailImageView.alpha = 1.;
-            
-            } completion:^(BOOL finished) {
-                
-                if ( selectedImageView.superview == nil ){
-                    [self.contentView addSubview:selectedImageView];
-                }
-                
-            }];
-            
+    if ( [[thumbnailURL absoluteString] hasPrefix:@"assets-library://"] ){
+        ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
+        [library assetForURL:thumbnailURL resultBlock:^(ALAsset *asset) {
+            // You can also load a "fullResolutionImage", but it's heavy ...
+            //CGImageRef imgRef = [asset aspectRatioThumbnail];
+            CGImageRef imgRef = [asset thumbnail];
+            thumbnailImageView.image = [UIImage imageWithCGImage:imgRef];
+        } failureBlock:^(NSError *error) {
+        }];
     } else {
-            
-            // UI updates must be done on the main thread
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [thumbnailImageView setImage:image];
-               
-                if ( selectedImageView.superview == nil ){
-                    [self.contentView addSubview:selectedImageView];
-                }
-            });
-
-            
+        [thumbnailImageView setImageWithURL:thumbnailURL];
     }
-    
-    
 }
 
 -(void) setSelected:(BOOL)selected {
     
     [super setSelected:selected];
     
-    selectedImageView.alpha = selected?1:0;
+    selectedImageView.hidden = ! selected;
     
 }
 

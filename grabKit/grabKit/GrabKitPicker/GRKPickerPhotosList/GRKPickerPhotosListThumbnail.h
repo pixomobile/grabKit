@@ -43,8 +43,6 @@
 }
 
 
--(void)updateThumbnailWithImage:(UIImage*)image animated:(BOOL)animated;
-
-+(UIImage*)sharedThumbnailPlaceholderImage;
+-(void)updateThumbnailImage:(NSURL *)thumbnailURL;
 
 @end

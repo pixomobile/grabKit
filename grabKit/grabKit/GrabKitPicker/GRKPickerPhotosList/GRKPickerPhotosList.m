@@ -23,7 +23,6 @@
 
 #import "GRKPickerPhotosList.h"
 #import "GRKPickerPhotosListThumbnail.h"
-#import "GRKPickerThumbnailManager.h"
 #import "GRKPickerViewController.h"
 #import "GRKPickerViewController+privateMethods.h"
 
@@ -287,10 +286,6 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
     // stop all operations of the grabber
     [_grabber cancelAll];
     
-    // stop all loads of thumbnails
-    [[GRKPickerThumbnailManager sharedInstance] removeAllURLsOfThumbnailsToDownload];
-    [[GRKPickerThumbnailManager sharedInstance] cancelAllConnections];
-    
     // Reset the operations count.
     // If the view disappears while something is loading (i.e. after an INCREASE_OPERATIONS_COUNT),
     //  the corresponding DECREASE_OPERATIONS_COUNT is not called, and the activity indicator remains spinning...
@@ -435,68 +430,23 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
     
 }
 
--(void) prepareCell:(GRKPickerPhotosListThumbnail *)cell fromCollectionView:(UICollectionView*)collectionView atIndexPath:(NSIndexPath*)indexPath withPhoto:(GRKPhoto*)photo  {
+-(void) prepareCell:(GRKPickerPhotosListThumbnail *)cell fromCollectionView:(UICollectionView*)collectionView atIndexPath:(NSIndexPath*)indexPath withPhoto:(GRKPhoto*)photo
+{
+    NSURL * thumbnailURL = nil;
     
-        NSURL * thumbnailURL = nil;
+    for( GRKImage * image in [photo imagesSortedByHeight] ){
         
-        for( GRKImage * image in [photo imagesSortedByHeight] ){
+        // If the imageView for thumbnails is 75px wide, we need images with both dimensions greater or equal to 2*75px, for a perfect result on retina displays
+        if ( image.width >= kCellSize*2 && image.height >= kCellSize*2 ) {
             
-            // If the imageView for thumbnails is 75px wide, we need images with both dimensions greater or equal to 2*75px, for a perfect result on retina displays
-            if ( image.width >= kCellSize*2 && image.height >= kCellSize*2 ) {
-                
-                thumbnailURL = image.URL;
-                
-                // Once we have found the first image bigger than the thumbnail, break the loop
-                break;
-            }
+            thumbnailURL = image.URL;
+            
+            // Once we have found the first image bigger than the thumbnail, break the loop
+            break;
         }
-        
-        // Try to retreive the thumbnail from the cache first ...
-        UIImage * cachedThumbnail = [[GRKPickerThumbnailManager sharedInstance] cachedThumbnailForURL:thumbnailURL andSize:CGSizeMake(150, 150)];
-
-        if ( cachedThumbnail == nil ) {
-            
-            // If it hasn't been downloaded yet, let's do it
-            [[GRKPickerThumbnailManager sharedInstance] downloadThumbnailAtURL:thumbnailURL
-                                                             forThumbnailSize:CGSizeMake(150, 150)
-                                                            withCompleteBlock:^( UIImage *image, BOOL retrievedFromCache ) {
-                                                                
-                                                                if ( image != nil ){
-                                                                    
-                                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                                        
-                                                                        /* do not do that :
-                                                                         [cell updateThumbnailWithImage:image animated:NO];
-                                                                         
-                                                                         This block is performed asynchronously.
-                                                                         During the download of the image, the given cell may have been dequeued and reused, so we would be updating the wrong cell.
-                                                                         Do this instead :
-                                                                         */
-                                                                        
-                                                                        GRKPickerPhotosListThumbnail * cellToUpdate = (GRKPickerPhotosListThumbnail *)[collectionView cellForItemAtIndexPath:indexPath];
-                                                                        [cellToUpdate updateThumbnailWithImage:image animated: ! retrievedFromCache ];
-                                                                        
-                                                                    });
-                                                                    
-                                                                }
-                                                                
-                                                                
-                                                            } andErrorBlock:^(NSError *error) {
-                                                                
-                                                                // nothing to do, fail silently
-                                                                
-                                                            }];
-            
-            
-        }else {
-            
-            // else, just update it
-            [cell updateThumbnailWithImage:cachedThumbnail animated:NO];
-        }
+    }
     
-       
-
-    
+    [cell updateThumbnailImage:thumbnailURL];
 }
 
 

@@ -33,8 +33,6 @@
 #import "GRKServiceGrabber+usernameAndProfilePicture.h"
 #import "GRKDeviceGrabber.h"
 
-#import "GRKPickerThumbnailManager.h"
-
 #import <FacebookSDK/FacebookSDK.h>
 
 #import "AsyncURLConnection.h"
@@ -589,52 +587,7 @@ NSUInteger kMaximumRetriesCount = 1;
         thumbnailURL = ((GRKImage*)[imagesSortedByHeight lastObject]).URL;
     }
      
-        
-    // Try to retreive the thumbnail from the cache first ...
-    UIImage * cachedThumbnail = [[GRKPickerThumbnailManager sharedInstance] cachedThumbnailForURL:thumbnailURL andSize:CGSizeMake(minWidth, minHeight)];
-    
-    if ( cachedThumbnail == nil ) {
-        
-        // If it hasn't been downloaded yet, let's do it
-        [[GRKPickerThumbnailManager sharedInstance] downloadThumbnailAtURL:thumbnailURL
-                                                          forThumbnailSize:CGSizeMake(minWidth, minHeight)
-                                                         withCompleteBlock:^( UIImage *image, BOOL retrievedFromCache ) {
-                                                             
-                                                             if ( image != nil ){
-                                                                 
-                                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                                     
-                                                                     /* do not do that :
-                                                                      [cell updateThumbnailWithImage:image animated:NO];
-                                                                      
-                                                                      This block is performed asynchronously.
-                                                                      During the download of the image, the given cell may have been dequeued and reused, so we would be updating the wrong cell.
-                                                                      Do this instead :
-                                                                      */
-                                                                     
-                                                                     GRKPickerAlbumsListCell * cellToUpdate = (GRKPickerAlbumsListCell *)[tableView cellForRowAtIndexPath:indexPath];
-                                                                     [cellToUpdate updateThumbnailWithImage:image animated: ! retrievedFromCache ];
-                                                                     
-                                                                 });
-                                                                 
-                                                             }
-                                                             
-                                                             
-                                                         } andErrorBlock:^(NSError *error) {
-                                                             
-                                                             // Nothing to do, fail silently
-                                                         }];
-        
-        
-    }else {
-        
-        // else, just update it
-        [cell updateThumbnailWithImage:cachedThumbnail animated:NO];
-    }
-    
-    
-    
-    
+    [cell updateThumbnailImage:thumbnailURL];
 }
 
 
