@@ -26,81 +26,38 @@
 
 @implementation GRKPickerLoadMoreCell
 
-@synthesize delegate;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithCoder:aDecoder];
+    
     if (self) {
-        // Initialization code
+        self.textLabel.textAlignment = NSTextAlignmentCenter;
+        self.textLabel.font = [UIFont systemFontOfSize:15];
     }
+    
     return self;
 }
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 -(void)prepareForReuse {
-    //[_activityIndicator stopAnimating];
-    [self setToLoadMore];
-    
-}
-
--(IBAction)didTouchLoadMoreButton:(id)sender; {
-    
-    if ( self.delegate != nil && [delegate respondsToSelector:@selector(cellDidReceiveTouchOnLoadMoreButton:)] ){
-        
-        //[_activityIndicator startAnimating];
-        [self.delegate cellDidReceiveTouchOnLoadMoreButton:self];
-        
-    }
-    
-}
-
-
--(void) updateButtonFrame {
-    
-    CGFloat W = self.frame.size.width;
-    CGFloat w = MIN(_loadMoreButton.frame.size.width, W-10);
-    
-    CGFloat H = self.frame.size.height;
-    CGFloat h = _loadMoreButton.frame.size.height;
-    
-    
-    _loadMoreButton.frame = CGRectMake( (W-w)/2, (H-h)/2, w, h);
-
-    
+    [self setToLoading];
 }
 
 -(void)setToRetry {
-    //[_activityIndicator stopAnimating];
-    
-    [_loadMoreButton.titleLabel setAdjustsFontSizeToFitWidth:YES];
-    
-    [_loadMoreButton setTitle:GRK_i18n(@"GRK_LOAD_MORE_CELL_ERROR_RETRY", @"An error occured. Please retry.") forState:UIControlStateNormal];
-    [_loadMoreButton sizeToFit];
-    
-    [self updateButtonFrame];
-    
+    [_activityIndicator stopAnimating];
+    self.textLabel.text = GRK_i18n(@"GRK_LOAD_MORE_CELL_ERROR_RETRY", @"An error occured. Please retry.");
+    self.selectionStyle = UITableViewCellSelectionStyleDefault;
 }
 
--(void)setToLoadMore {
-    // [_activityIndicator stopAnimating];
-    
-    [_loadMoreButton.titleLabel setAdjustsFontSizeToFitWidth:YES];
-    
-    [_loadMoreButton setTitle:GRK_i18n(@"GRK_LOAD_MORE_CELL_LOAD_MORE", @"Load more") forState:UIControlStateNormal];
-
-    [_loadMoreButton sizeToFit];
-    
-    [self updateButtonFrame];
-    
+-(void)setToLoading {
+    [_activityIndicator startAnimating];
+    self.textLabel.text = nil;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
+-(void)setToAllLoaded {
+    [_activityIndicator stopAnimating];
+    self.textLabel.text = GRK_i18n(@"GRK_ALBUMS_LIST_ALL_ALBUMS_LOADED", nil);
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
 
 @end

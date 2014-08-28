@@ -46,8 +46,6 @@ static NSString *loadMoreCellIdentifier = @"loadMoreCell";
 @interface GRKPickerAlbumsList()
     -(void)loadMoreAlbums;
     -(void)setState:(GRKPickerAlbumsListState)newState;
-    -(void)showHUD;
-    -(void)hideHUD;
 @end
 
 
@@ -68,18 +66,15 @@ NSUInteger kMaximumRetriesCount = 1;
 }
 
 
--(id) initWithGrabber:(id)grabber andServiceName:(NSString *)serviceName{
+-(id) initWithGrabber:(id)grabber andServiceName:(NSString *)serviceName {
     
     
     self = [super initWithNibName:@"GRKPickerAlbumsList" bundle:GRK_BUNDLE];
     if ( self ){
-        
-   
         _grabber = grabber;
         _serviceName = serviceName;
         _albums = [[NSMutableArray alloc] init];
         _lastLoadedPageIndex = 0;
-        allAlbumsGrabbed = NO;
         [self setState:GRKPickerAlbumsListStateInitial];
     }
     
@@ -104,8 +99,6 @@ NSUInteger kMaximumRetriesCount = 1;
             
             _needToConnectView.hidden = YES;
             
-            [self showHUD];
-         
             INCREASE_OPERATIONS_COUNT
         }
             break;
@@ -127,7 +120,6 @@ NSUInteger kMaximumRetriesCount = 1;
             [UIView animateWithDuration:0.33 animations:^{
 
                 _needToConnectView.alpha = 1;
-                [self hideHUD];
                 
             }];
             
@@ -168,7 +160,6 @@ NSUInteger kMaximumRetriesCount = 1;
             [UIView animateWithDuration:0.33 animations:^{
                 
                 _needToConnectView.alpha = 1;
-                [self hideHUD];
                 
             }];
             
@@ -182,11 +173,6 @@ NSUInteger kMaximumRetriesCount = 1;
         case GRKPickerAlbumsListStateGrabbing:
         {
             INCREASE_OPERATIONS_COUNT
-            
-            if ( [MBProgressHUD HUDForView:self.view] == nil ){
-                [self showHUD];
-                
-            }
             
         }
             
@@ -210,21 +196,10 @@ NSUInteger kMaximumRetriesCount = 1;
                 [UIView animateWithDuration:0.33 animations:^{
                     
                     self.tableView.alpha = 1;
-                    [self hideHUD];
                     
                 }];
-                
-            } else {
-                // else, just hide the HUD
-                [self hideHUD];
-                
             }
-            
-            // If all the albums have been grabbed, show a nice footer
-            if ( state == GRKPickerAlbumsListStateAllAlbumsGrabbed ){
-                [self buildOrUpdateFooterView];
-            }
-            
+
             [self.tableView reloadData];
             
             
@@ -236,23 +211,13 @@ NSUInteger kMaximumRetriesCount = 1;
             DECREASE_OPERATIONS_COUNT
             
             NSIndexPath * loadMoreCellIndexPath = [NSIndexPath indexPathForRow:[_albums count] inSection:0];
-            UITableViewCell * loadMoreCell = [_tableView cellForRowAtIndexPath:loadMoreCellIndexPath];
-            
-            if ( [loadMoreCell isKindOfClass:[GRKPickerLoadMoreCell class]] ){
-            
-                [(GRKPickerLoadMoreCell*)loadMoreCell setToRetry];
-            }
-            
-            [self hideHUD];
-            
+            [self.tableView reloadRowsAtIndexPaths:@[loadMoreCellIndexPath] withRowAnimation:UITableViewRowAnimationNone];
         }
             break;
             
         case GRKPickerAlbumsListStateDisconnecting:
         {
             INCREASE_OPERATIONS_COUNT
-
-            [self showHUD];
             
         }
             break;
@@ -261,8 +226,6 @@ NSUInteger kMaximumRetriesCount = 1;
         case GRKPickerAlbumsListStateDisconnected:
         {
              DECREASE_OPERATIONS_COUNT
-            
-             [self hideHUD];
             
              [self.navigationController popToRootViewControllerAnimated:YES];
          
@@ -274,8 +237,6 @@ NSUInteger kMaximumRetriesCount = 1;
         {
             DECREASE_OPERATIONS_COUNT
             
-            [self hideHUD];
-
         }
             break;
             
@@ -283,20 +244,6 @@ NSUInteger kMaximumRetriesCount = 1;
             break;
     }
     
-    
-}
-
--(void)showHUD {
-    
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-
-    hud.labelText = GRK_i18n(@"GRK_ALBUMS_LIST_HUD_LOADING", @"Loading ...");
-    
-}
-
--(void)hideHUD {
-    [MBProgressHUD  hideHUDForView:self.view animated:YES];
     
 }
 
@@ -364,36 +311,6 @@ NSUInteger kMaximumRetriesCount = 1;
     
 }
 
--(void) buildOrUpdateFooterView {
-    
-    if ( _footer == nil ){
-        _footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 80)];
-        
-    }
-    
-    
-    NSString * stringAllLoaded = GRK_i18n(@"GRK_ALBUMS_LIST_ALL_ALBUMS_LOADED", @"All albums loaded");
-    
-    UIFont * fontAllLoaded = [UIFont fontWithName:@"Helvetica" size:14];
-    
-    CGSize expectedSize = [stringAllLoaded sizeWithFont:fontAllLoaded
-                                      constrainedToSize:_footer.frame.size
-                                          lineBreakMode:NSLineBreakByTruncatingTail];
-    
-    CGFloat labelX = (_footer.frame.size.width - expectedSize.width) / 2;
-    CGFloat labelY = (_footer.frame.size.height - expectedSize.height) / 2;
-    
-    UILabel * labelAllLoaded = [[UILabel alloc] initWithFrame:CGRectMake( labelX, labelY, expectedSize.width, expectedSize.height)];
-    labelAllLoaded.text = stringAllLoaded;
-    labelAllLoaded.font = fontAllLoaded;
-    labelAllLoaded.textColor = [UIColor blackColor];
-    
-    [_footer addSubview:labelAllLoaded];
-    
-    self.tableView.tableFooterView = _footer;
-    
-}
-
 
 #pragma mark GRKPickerCurrentUserViewDelegate methods
 
@@ -422,24 +339,6 @@ NSUInteger kMaximumRetriesCount = 1;
         
     }];
 
-    
-}
-
-#pragma mark GRKPickerLoadMoreCellDelegate 
-
--(void)cellDidReceiveTouchOnLoadMoreButton:(GRKPickerLoadMoreCell *)cell {
-    
-    if ( state == GRKPickerAlbumsListStateGrabbing ){
-        return;
-    }
-    
-    if ( ! allAlbumsGrabbed ){
-        [self loadMoreAlbums];
-        
-    } else {
-        [self.tableView reloadData];
-        
-    }
     
 }
 
@@ -655,23 +554,6 @@ NSUInteger kMaximumRetriesCount = 1;
     
 }
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-   
-    // retrieve the loadMoreCell to update it
-    NSIndexPath * loadMoreCellIndexPath = [NSIndexPath indexPathForRow:[_albums count] inSection:0];
-    UITableViewCell * loadMoreCell = [_tableView cellForRowAtIndexPath:loadMoreCellIndexPath];
-    
-    
-    if ( [loadMoreCell isKindOfClass:[GRKPickerLoadMoreCell class]] ){
-        [(GRKPickerLoadMoreCell*)loadMoreCell updateButtonFrame];
-        
-    }
-    
-}
-
-
-
-
 
 -(void) prepareCell:(GRKPickerAlbumsListCell *)cell fromTableView:(UITableView*)tableView atIndexPath:(NSIndexPath*)indexPath withAlbum:(GRKAlbum*)album  {
     
@@ -769,38 +651,35 @@ NSUInteger kMaximumRetriesCount = 1;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-    NSUInteger res = [_albums count];
+    return _albums.count + 1;
         
-    // If some albums have been grabbed, show an extra cell for "N albums - Load More"
-    if ( state == GRKPickerAlbumsListStateAlbumsGrabbed ) res++;
-    
-    // If all albums have been grabbed, show an extra cell for "N Albums"
-  //  if ( state == GRKPickerAlbumsListStateAllAlbumsGrabbed ) res++;
-    
-    return res;
-
-    
-    
 }
 
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    UITableViewCell *cell = nil;
+    UITableViewCell * cell = nil;
     
     // Handle the extra cell
     if ( indexPath.row >= [_albums count] ){
     
-        if ( ! allAlbumsGrabbed ){
-
-            cell = [tableView dequeueReusableCellWithIdentifier:loadMoreCellIdentifier];
+        cell = [tableView dequeueReusableCellWithIdentifier:loadMoreCellIdentifier];
+        if (cell == nil) {
             cell = [[GRK_BUNDLE loadNibNamed:@"GRKPickerLoadMoreCell" owner:nil options:nil] objectAtIndex:0];
-            ((GRKPickerLoadMoreCell*)cell).delegate = self;
-            [(GRKPickerLoadMoreCell*)cell setToLoadMore];
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+
+        switch (state) {
+            case GRKPickerAlbumsListStateGrabbingFailed:
+                [(GRKPickerLoadMoreCell*)cell setToRetry];
+                break;
+            case GRKPickerAlbumsListStateAlbumsGrabbed:
+                [(GRKPickerLoadMoreCell*)cell setToLoading];
+                [self loadMoreAlbums];
+                break;
+            case GRKPickerAlbumsListStateAllAlbumsGrabbed:
+                [(GRKPickerLoadMoreCell*)cell setToAllLoaded];
+                break;
         }
         
     } else {
@@ -825,28 +704,16 @@ NSUInteger kMaximumRetriesCount = 1;
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        
-        
-        
     }
 
-    cell.selected = NO;
-    
     return cell;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ( [cell isKindOfClass:[GRKPickerLoadMoreCell class]]) {
-        [(GRKPickerLoadMoreCell*)cell updateButtonFrame];
-    }
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if ( indexPath.row <= [_albums count] -1 ) {
         
@@ -858,8 +725,15 @@ NSUInteger kMaximumRetriesCount = 1;
             [self.navigationController pushViewController:photosList animated:YES];
         }
         
+    } else {
+        UITableViewCell * loadMoreCell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        if ( [loadMoreCell isKindOfClass:[GRKPickerLoadMoreCell class]] ){
+            [(GRKPickerLoadMoreCell*)loadMoreCell setToLoading];
+            
+            [self loadMoreAlbums];
+        }
     }
-
 }
 
 
@@ -937,7 +811,6 @@ NSUInteger kMaximumRetriesCount = 1;
 }
 
 
-
 -(void) loadMoreAlbums {
 
     if ( state == GRKPickerAlbumsListStateGrabbing)
@@ -953,52 +826,51 @@ NSUInteger kMaximumRetriesCount = 1;
     if ( state != GRKPickerAlbumsListStateGrabbing)
         [self setState:GRKPickerAlbumsListStateGrabbing];
     
-    [_grabber albumsOfCurrentUserAtPageIndex:pageIndex
-                   withNumberOfAlbumsPerPage:numberOfAlbumsPerPage
-                            andCompleteBlock:^(NSArray *results) {
-                                
-                                _lastLoadedPageIndex+=1;
-                                [_albums addObjectsFromArray:results];
-                                
-                                for( GRKAlbum * newAlbum in results ){
-                                    
-                                    [newAlbum addObserver:self forKeyPath:@"count" options:NSKeyValueObservingOptionNew context:nil];
-                                    
-                                }
-                              
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [self loadCoverPhotoForAlbums:results];
-                                });
-                                
-                                
-                                // Update the state. the tableView is reloaded in this method.
-                                if ( [results count] < kNumberOfAlbumsPerPage ){
-                                    allAlbumsGrabbed = YES;
-                                    [self setState:GRKPickerAlbumsListStateAllAlbumsGrabbed];
-                                } else {
-                                    [self setState:GRKPickerAlbumsListStateAlbumsGrabbed];
-                                    
-                                }
-                                
-                                
-                            } andErrorBlock:^(NSError *error) {
-                                
-                                NSLog(@" error ! %@", error);
-                                
-                                if ( allowedRetriesCount > 0 ){
-                                    
-                                    [self loadAlbumsAtPageIndex:pageIndex withNumberOfAlbumsPerPage:numberOfAlbumsPerPage andNumberOfAllowedRetries:allowedRetriesCount-1];
-                                    
-                                    return;
-                                    
-                                } else {
-                                
-                                    [self setState:GRKPickerAlbumsListStateGrabbingFailed];
-                                
-                                }
-                                
-                            }];
-    
+    [_grabber
+     albumsOfCurrentUserAtPageIndex:pageIndex
+     withNumberOfAlbumsPerPage:numberOfAlbumsPerPage
+     andCompleteBlock:^(NSArray *results) {
+         
+         _lastLoadedPageIndex+=1;
+         [_albums addObjectsFromArray:results];
+         
+         for( GRKAlbum * newAlbum in results ){
+             
+             [newAlbum addObserver:self forKeyPath:@"count" options:NSKeyValueObservingOptionNew context:nil];
+             
+         }
+         
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [self loadCoverPhotoForAlbums:results];
+         });
+         
+         
+         // Update the state. the tableView is reloaded in this method.
+         if ( [results count] < kNumberOfAlbumsPerPage ){
+             [self setState:GRKPickerAlbumsListStateAllAlbumsGrabbed];
+         } else {
+             [self setState:GRKPickerAlbumsListStateAlbumsGrabbed];
+             
+         }
+         
+         
+     } andErrorBlock:^(NSError *error) {
+         
+         NSLog(@" error ! %@", error);
+         
+         if ( allowedRetriesCount > 0 ){
+             
+             [self loadAlbumsAtPageIndex:pageIndex withNumberOfAlbumsPerPage:numberOfAlbumsPerPage andNumberOfAllowedRetries:allowedRetriesCount-1];
+             
+             return;
+             
+         } else {
+             
+             [self setState:GRKPickerAlbumsListStateGrabbingFailed];
+             
+         }
+         
+     }];
 }
 
 

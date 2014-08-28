@@ -26,17 +26,6 @@
 
 @class GRKPickerLoadMoreCell;
 
-
-/*  This protocol offers a method to notify a delegate that the user did touch the "load more" button. */
-@protocol GRKPickerLoadMoreCellDelegate <NSObject>
-
-@optional
--(void)cellDidReceiveTouchOnLoadMoreButton:(GRKPickerLoadMoreCell*)cell;
-
-@end
-
-
-
 /* This class is not meant to be used as-is by third-party developers. The comments are here just for eventual needs of customisation .
  
      This class is a subclass of UITableViewCell to display a "load more" button in the tableView of GRKPickerAlbumsList.
@@ -49,20 +38,11 @@
  
 */
 @interface GRKPickerLoadMoreCell : UITableViewCell {
-    
-    
-    IBOutlet UIButton * _loadMoreButton;
     IBOutlet UIActivityIndicatorView * _activityIndicator;
-    __weak id<GRKPickerLoadMoreCellDelegate> delegate;
-    
 }
 
-@property (nonatomic, weak) id<GRKPickerLoadMoreCellDelegate> delegate;
-
--(IBAction)didTouchLoadMoreButton:(id)sender;
-
 -(void)setToRetry;
--(void)setToLoadMore;
--(void) updateButtonFrame;
+-(void)setToLoading;
+-(void)setToAllLoaded;
 
 @end

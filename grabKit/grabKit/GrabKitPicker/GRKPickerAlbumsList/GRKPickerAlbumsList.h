@@ -66,11 +66,10 @@ typedef NSUInteger GRKPickerAlbumsListState;
     _   _needToConnectView, a view to let the user login, and display an error message if it fails.
  
  */
-@interface GRKPickerAlbumsList : UIViewController <UITableViewDataSource, UITableViewDelegate, GRKPickerCurrentUserViewDelegate, GRKPickerLoadMoreCellDelegate> {
+@interface GRKPickerAlbumsList : UIViewController <UITableViewDataSource, UITableViewDelegate, GRKPickerCurrentUserViewDelegate> {
 
     IBOutlet UITableView * _tableView;
     GRKPickerCurrentUserView * _headerView;
-    UIView * _footer;
     
     IBOutlet UIView * _needToConnectView;
     IBOutlet UILabel * _needToConnectLabel;
@@ -82,8 +81,6 @@ typedef NSUInteger GRKPickerAlbumsListState;
     
     NSMutableArray * _albums;        // array which will store the grabbed GRKAlbum objects 
     NSUInteger _lastLoadedPageIndex; // index of the last loaded page. initialized at 0
-    
-    BOOL allAlbumsGrabbed;            // Set at YES if all albums have been loaded
     
     GRKPickerAlbumsListState state; // state of the controller
 }
