@@ -145,13 +145,24 @@ NSUInteger kContentInset;
 
 -(void) loadPage:(NSUInteger)pageIndex; {
     
-    if ( [_indexesOfLoadingPages containsObject:[NSNumber numberWithInt:pageIndex]] )
-        return;
-    
     if ( [_indexesOfLoadedPages containsObject:[NSNumber numberWithInt:pageIndex]] )
         return;
 
+    [self markPageIndexToLoad:pageIndex];
+
+    if ( _indexesOfLoadingPages.count == 0 ) {
+        [self loadNextPage];
+    }
+}
+
+- (void)loadNextPage
+{
+    if (_indexesOfPagesToLoad.count == 0) {
+        return;
+    }
     
+    NSInteger pageIndex = [_indexesOfPagesToLoad.firstObject integerValue];
+
     // if the grabber can't load the pages discontinuously, let's check if the previous page has been loaded, or not.
     if ( ! _grabber.canLoadPhotosPagesDiscontinuously && pageIndex > 0){
         
@@ -159,20 +170,14 @@ NSUInteger kContentInset;
         // If the previous page has not been loaded,
         if ( ! [_indexesOfLoadedPages containsObject:[NSNumber numberWithInt:pageIndex-1]] ) {
             
-            
-                // mark pageIndex to load
-                [self markPageIndexToLoad:pageIndex];
-            
-                // load previous page
-                [self loadPage:pageIndex-1];
+            // load previous page
+            [self loadPage:pageIndex-1];
             
             return;
             
         }
     }
-    
-    
-    
+
     [self markPageIndexAsLoading:pageIndex];
         
     [_grabber fillAlbum:_album
@@ -230,13 +235,8 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
            }
            
            // if there are other pages to load, load the first one
-            if( [_indexesOfPagesToLoad count] > 0 ){
-                
-                [self loadPage:[[_indexesOfPagesToLoad objectAtIndex:0] intValue]];
-                
-            }
-         
-           
+           [self loadNextPage];
+
        } andErrorBlock:^(NSError *error) {
            NSLog(@" error for page %d : %@", pageIndex,  error);
            
@@ -244,7 +244,6 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
            [self setState:GRKPickerPhotosListStateGrabbingFailed];
            
        }];
-    
 }
 
 -(void) updateRightBarButtonItem {
@@ -388,10 +387,15 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
 
 -(void) markPageIndexToLoad:(NSUInteger)pageIndex;{
     
-    if ( [_indexesOfPagesToLoad indexOfObject:[NSNumber numberWithInt:pageIndex]] == NSNotFound ){
-        [_indexesOfPagesToLoad addObject:[NSNumber numberWithInt:pageIndex]];
-        
-        //NSLog(@" page %d marked as TO LOAD", pageIndex);
+    // Always put the last needed page index to front.
+    NSNumber * page = [NSNumber numberWithInt:pageIndex];
+    
+    [_indexesOfPagesToLoad removeObject:page];
+    [_indexesOfPagesToLoad insertObject:page atIndex:0];
+
+    // Don't queue too many pages.
+    if (_grabber.canLoadPhotosPagesDiscontinuously && _indexesOfPagesToLoad.count > 3) {
+        [_indexesOfPagesToLoad removeLastObject];
     }
 }
     

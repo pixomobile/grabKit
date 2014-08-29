@@ -83,7 +83,9 @@
 
 -(void) prepareForReuse {
     
-    [thumbnailImageView setImage:nil];
+    thumbnailImageView.image = nil;
+    [thumbnailImageView cancelImageRequestOperation];
+
     selectedImageView.hidden = YES;
 
     // Fix for issue #27 https://github.com/pierrotsmnrd/grabKit/issues/27
