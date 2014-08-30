@@ -222,8 +222,8 @@ withNumberOfPhotosPerPage:kNumberOfPhotosPerPage
                
                NSMutableArray * indexPathsToReload = [NSMutableArray array];
            
-               for ( int i = (pageIndex * kNumberOfPhotosPerPage);
-                    i <= (pageIndex+1) * kNumberOfPhotosPerPage -1 && i < _album.count - 1;
+               for (NSUInteger i = (pageIndex * kNumberOfPhotosPerPage);
+                    i <= (pageIndex+1) * kNumberOfPhotosPerPage -1 && i < _album.count;
                     i++ ){
            
                    [indexPathsToReload addObject:[NSIndexPath indexPathForItem:i inSection:0]];
