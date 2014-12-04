@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
   s.dependency 'MBProgressHUD', '~> 0.6'
   s.dependency 'objectiveflickr', '~> 2.0.2'
   s.dependency 'GData', '0.0.1'
+  s.dependency 'gtm-oauth2', '= 0.1.0'
   s.dependency 'AFNetworking'
 
   s.ios.frameworks = 'Accounts',  'AssetsLibrary', 'CFNetwork', 'QuartzCore', 'Security', 'Social', 'SystemConfiguration'
