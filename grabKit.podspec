@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "grabKit"
-  s.version      = "1.4"
+  s.version      = "1.4.1"
   s.summary      = "Drop-in iOS component to easily import photos from Facebook, FlickR, Instagram, Picasa, and more."
   s.description  = <<-DESC
 				GrabKit allows you to retrieve photos from  :
