@@ -24,9 +24,6 @@
 
 #import "GRKFacebookBatchQuery.h"
 
-
-#import <FacebookSDK/FBSession.h>
-#import <FacebookSDK/FBRequest.h>
 #import "GRKConstants.h"
 #import "GRKFacebookSingleton.h"
 
@@ -47,7 +44,7 @@
     
     if ( self ){
         
-        _requestConnection = [[FBRequestConnection alloc] init];
+        _requestConnection = [[FBSDKGraphRequestConnection alloc] init];
         _results = [NSMutableDictionary dictionary];
         
         _numberOfAddedRequests = 0;
@@ -76,8 +73,7 @@
     }
 
     
-   FBRequest * request =  [[FBRequest alloc] initWithSession:FBSession.activeSession
-                                                       graphPath:graphPath 
+   FBSDKGraphRequest * request =  [[FBSDKGraphRequest alloc] initWithGraphPath:graphPath
                                                       parameters:params 
                                                       HTTPMethod:@"GET"];
 
@@ -87,7 +83,7 @@
     }
 
     
-    FBRequestHandler handler = ^(FBRequestConnection *connection, id result, NSError *error) {
+    FBSDKGraphRequestHandler handler = ^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
         
         _numberOfRunningRequests--;
         

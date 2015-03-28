@@ -24,14 +24,13 @@
 
 #import "GRKFacebookSingleton.h"
 #import "GRKConstants.h"
-#import <FacebookSDK/FBSession.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 static GRKFacebookSingleton * sharedFacebook = nil;
 
 @implementation GRKFacebookSingleton
 
 @synthesize userLocale;
-@synthesize facebookSession;
 
 +(GRKFacebookSingleton *) sharedInstance;
 {
@@ -49,14 +48,6 @@ static GRKFacebookSingleton * sharedFacebook = nil;
 {
 
     if ((self = [super init]) != nil){
-    
-
-        [FBSession setDefaultAppID:[GRKCONFIG facebookAppId]];
-        
-        facebookSession = [FBSession activeSession];
-        
-        
-        sessionDelegate = nil;
     }
     
     return self;

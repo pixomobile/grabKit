@@ -22,13 +22,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <FacebookSDK/FBRequestConnection.h>
 #import "GRKFacebookQuery.h"
 #import "GRKServiceQueryProtocol.h"
 
 @interface GRKFacebookBatchQuery : NSObject {
     
-    FBRequestConnection *  _requestConnection;
+    FBSDKGraphRequestConnection *  _requestConnection;
     
     NSInteger _numberOfAddedRequests;
     NSInteger _numberOfRunningRequests;

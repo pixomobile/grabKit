@@ -27,16 +27,16 @@
 #import "GRKServiceGrabberProtocol.h"
 #import "GRKServiceQueryProtocol.h"
 
-#import <FacebookSDK/FBRequest.h>
-
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 /** GRKFacebookQuery is an object conforming to GRKServiceQueryProtocol, used by a GRKFacebookGrabber, representing a single call to Facebook's webservices.
 */
 @interface GRKFacebookQuery : NSObject <GRKServiceQueryProtocol> {
 	
     
-    FBRequestConnection * requestConnection;
-    FBRequest* request;
+    FBSDKGraphRequestConnection * requestConnection;
+    FBSDKGraphRequest* request;
     NSString * graphPath;
     NSMutableDictionary * params;
     

@@ -25,10 +25,9 @@
 #import "GRKFacebookQuery.h"
 #import "GRKFacebookSingleton.h"
 #import "GRKConstants.h"
-#import <FacebookSDK/FBSession.h>
 
 @interface GRKFacebookQuery()
--(void) requestConnectionCompleted:(FBRequestConnection *)connection withResult:(id)result orError:(NSError*)error;
+-(void) requestConnectionCompleted:(FBSDKGraphRequestConnection *)connection withResult:(id)result orError:(NSError*)error;
 @end
 
 
@@ -79,10 +78,10 @@
 {
     
     // create the connection object
-    requestConnection = [[FBRequestConnection alloc] init];
+    requestConnection = [[FBSDKGraphRequestConnection  alloc] init];
     
     __block id me = self;
-    FBRequestHandler handler = ^(FBRequestConnection *connection, id result, NSError *error) {
+    FBSDKGraphRequestHandler handler = ^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
 
         [me requestConnectionCompleted:connection withResult:result orError:error];
         requestConnection = nil;
@@ -94,7 +93,7 @@
     }
 
     
-    request =  [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:graphPath parameters:params HTTPMethod:@"GET"];
+    request =  [[FBSDKGraphRequest alloc] initWithGraphPath:graphPath parameters:params HTTPMethod:@"GET"];
     [requestConnection addRequest:request completionHandler:handler];
     
     [requestConnection start];
@@ -113,7 +112,7 @@
 
 #pragma mark Completion handler method
 
--(void) requestConnectionCompleted:(FBRequestConnection *)connection withResult:(id)result orError:(NSError*)error {
+-(void) requestConnectionCompleted:(FBSDKGraphRequestConnection*)connection withResult:(id)result orError:(NSError*)error {
     
     if (error != nil && errorBlock != nil ) {
 

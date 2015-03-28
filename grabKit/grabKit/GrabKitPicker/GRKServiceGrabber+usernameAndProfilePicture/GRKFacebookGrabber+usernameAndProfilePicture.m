@@ -26,7 +26,6 @@
 #import "GRKFacebookGrabber+usernameAndProfilePicture.h"
 #import "GRKFacebookQuery.h"
 #import "GRKConstants.h"
-#import <FacebookSDK/FBError.h>
 
 @implementation GRKFacebookGrabber (usernameAndProfilePicture)
 
@@ -100,26 +99,7 @@
                                    // Before assuming the session is invalid, let's filter some network-related errors
                                    
                                    if ( errorBlock != nil ){
-                                       
-                                       // First, retrieve the original error
-                                       NSDictionary *  userInfo = [error userInfo];
-                                       NSError * originalError = [userInfo objectForKey:FBErrorInnerErrorKey];
-                                       
-                                       if ( originalError != nil ){
-                                           
-                                           // "The Internet connection appears to be offline."
-                                           if ( originalError.code == kCFURLErrorNotConnectedToInternet ){
-                                               
-                                               dispatch_async_on_main_queue(errorBlock, originalError);
-                                               return;
-                                           }
-                                           
-                                       } else {
-                                           
-                                           dispatch_async_on_main_queue(errorBlock, error);
-                                           
-                                       }
-                                       
+                                        dispatch_async_on_main_queue(errorBlock, error);
                                    }
                                    
                                    [self unregisterQueryAsLoading:userDataQuery];

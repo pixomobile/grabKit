@@ -32,9 +32,6 @@
 #import "GRKFacebookSingleton.h"
 #import "GRKTokenStore.h"
 
-#import <FacebookSDK/FBSession.h>
-#import <FacebookSDK/FBError.h>
-
 
 static NSString * accessTokenKey = @"AccessTokenKey";
 static NSString * expirationDateKey = @"ExpirationDateKey";
@@ -63,114 +60,38 @@ static NSString * expirationDateKey = @"ExpirationDateKey";
 -(void) connectWithConnectionIsCompleteBlock:(GRKGrabberConnectionIsCompleteBlock)completeBlock andErrorBlock:(GRKErrorBlock)errorBlock;
 {
     
-    FBSession * session = [GRKFacebookSingleton sharedInstance].facebookSession;
-    
     connectionIsCompleteBlock = completeBlock;
     connectionDidFailBlock = errorBlock;
     
     // The Facebook SDK keeps internal values allowing to test, at any moment, if the session is valid or not.   
-    if ( ! session.isOpen ) {
+    if ( ! [FBSDKAccessToken currentAccessToken] ) {
         
         
-            [[GRKConnectorsDispatcher sharedInstance] registerServiceConnectorAsConnecting:self];
-            _applicationDidEnterBackground = NO;
+        [[GRKConnectorsDispatcher sharedInstance] registerServiceConnectorAsConnecting:self];
+        _applicationDidEnterBackground = NO;
+    
+        FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+        NSArray * permissions = @[@"user_photos", @"user_photo_video_tags"];
         
-            [FBSession setDefaultAppID:[GRKCONFIG facebookAppId]];
-            NSArray *permissions = [NSArray arrayWithObjects:@"user_photos", @"user_photo_video_tags", nil];
-        
-        
-            // The "_isConnecting" flag is usefull to use the FBSession object in a different purpose than it was built for.
-            //   The completionHandler below is executed each times the session changes, at any time.
-            //   We only want to open the session once, we don't want to be notified all the time. this is what this flag is made for.
-            _isConnecting = YES;
-        
-            // Maybe I'll change my mind later to have the benefit of completionHandler called at each state-change of the session. We'll see :)
-
-            /* Here is the test scenario that helped me fixing a bug.
-               Initial conditions :
-                    _ First, comment the test on _isConnecting, below
-                    _ The user has not yet added the FB application to his account, or he has removed it.
-                    _ The user must have more albums on facebook than kNumberOfAlbumsPerPage (defined in GRKPickerAlbumsList.m)
-             
-                Steps :
-                    _ Start the demo App, show the GRKPickerViewController, select Facebook
-                    _ The app should tell you to login. do so.
-                    _ Once the list of albums appeared, go to facebook, and revoke access to the FB App 
-                    _ In the app, scroll down and click on the "load more" button : 
-                         ==> BUG : the session is invalidated : the completion handler is called
-             
-                Fix : Add the _isConnecting flag
-             
-             */
-
-        
-        BOOL openSession =
-        [FBSession openActiveSessionWithReadPermissions:permissions
-                                           allowLoginUI:YES 
-                                      completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-                                          
-                                          
-                                          if ( _isConnecting ) {
-                                          
-                                              _isConnecting = NO;
-                                          
-                                              // Unregister the connector here too.
-                                              // In iOS 6, the app can be authorized without leaving the app, so we need to unregister the connector too.
-                                              [[GRKConnectorsDispatcher sharedInstance] unregisterServiceConnectorAsConnecting:self];
-                                              
-                                              if (FB_ISSESSIONOPENWITHSTATE(status)) {
-                                                  
-                                                  [GRKFacebookSingleton sharedInstance].facebookSession = session;
-                                                  
-                                                  
-                                                  // The session seems to be open ? great. But call this method recursively, to make a test call to graphPath /me, to be sure the session is still valid.
-                                                  [self connectWithConnectionIsCompleteBlock:completeBlock andErrorBlock:errorBlock];
-                                                  
-                                                  
-                                                  //dispatch_async_on_main_queue(completeBlock, YES);
-
-                                                  
-                                              } else if (error) {
-                                               
-                                                  
-                                                  // If the error that occured is that the user refused to log in
-                                                  id loginFailedReason = [[error userInfo] objectForKey:FBErrorLoginFailedReason];
-                                                  if ( [loginFailedReason isEqualToString:FBErrorLoginFailedReasonUserCancelledValue]
-                                                  || [loginFailedReason isEqualToString:FBErrorLoginFailedReasonUserCancelledSystemValue]
-                                                      ){
-                                                      
-                                                      if ( completeBlock != nil ){
-                                                            completeBlock(NO);
-                                                      }
-                                                      
-                                                      return;
-                                                  }
-                                                  
-                                                  // else, if a real error occured
-                                                  
-                                                  [[FBSession activeSession] closeAndClearTokenInformation];
-
-                                                  [GRKTokenStore removeTokenWithName:accessTokenKey forGrabberType:grabberType];
-                                                  [GRKTokenStore removeTokenWithName:expirationDateKey forGrabberType:grabberType];
-                                                  
-                                                  
-                                                  
-                                                  errorBlock(error);
-                                               
-                                                  
-                                              }
-                                              
-                                              
-                                          }
-                                      }];
-      
-        
-        NSLog(@" open session : %d", openSession);
+        [login logInWithReadPermissions:permissions handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+            if (error) {
+                // Process error
+                 errorBlock(error);
+            } else if (result.isCancelled) {
+                // Handle cancellations
+                completeBlock(NO);
+            } else {
+                // If you ask for multiple permissions at once, you
+                // should check if specific permissions missing
+                if ([result.grantedPermissions containsObject:@"email"]) {
+                    // Do work
+                }
+                dispatch_async_on_main_queue(completeBlock, YES);
+            }
+        }];
         
     } else  {
         
-        // session is supposed to be valid. let's test a simple query to check that, for example, the user removed the application on his settings on Facebook.
-    
         GRKFacebookQuery * query = nil;
         query = [GRKFacebookQuery queryWithGraphPath:@"me" 
                                          withParams:nil 
@@ -215,7 +136,7 @@ static NSString * expirationDateKey = @"ExpirationDateKey";
 -(void)disconnectWithDisconnectionIsCompleteBlock:(GRKGrabberDisconnectionIsCompleteBlock)completeBlock andErrorBlock:(GRKErrorBlock)errorBlock;
 {
    
-    [[GRKFacebookSingleton sharedInstance].facebookSession closeAndClearTokenInformation];
+    [[[FBSDKLoginManager alloc] init] logOut];
     
     [self isConnected:^(BOOL connected) {
         if ( completeBlock != nil ){
@@ -243,16 +164,9 @@ static NSString * expirationDateKey = @"ExpirationDateKey";
  */
 -(void) isConnected:(GRKGrabberConnectionIsCompleteBlock)connectedBlock errorBlock:(GRKErrorBlock)errorBlock;
 {
+    if ( ! [FBSDKAccessToken currentAccessToken] ){
     
-    FBSession * session = [GRKFacebookSingleton sharedInstance].facebookSession;
-    BOOL connected = (session.state == FBSessionStateCreatedTokenLoaded)
-    || (session.state == FBSessionStateOpen)
-    || (session.state == FBSessionStateOpenTokenExtended);
-    
-    
-    if ( ! connected ){
-    
-        dispatch_async_on_main_queue(connectedBlock, connected);
+        dispatch_async_on_main_queue(connectedBlock, NO);
         
         return;
     }
@@ -277,41 +191,7 @@ static NSString * expirationDateKey = @"ExpirationDateKey";
                                    query = nil;
                                    
                                } andErrorBlock:^(NSError *error) {
-                                   
-                                   // Before assuming the session is invalid, let's filter some network-related errors
-                                   
-                                   if ( errorBlock != nil ){
-                                       
-                                       // First, retrieve the original error
-                                       NSDictionary *  userInfo = [error userInfo];
-                                       NSError * originalError = [userInfo objectForKey:FBErrorInnerErrorKey];
-
-                                       if ( originalError != nil ){
-                                           
-                                           // "The Internet connection appears to be offline."
-                                           if ( originalError.code == kCFURLErrorNotConnectedToInternet ){
-
-                                               dispatch_async_on_main_queue(errorBlock, originalError);
-                                               
-                                               [_queries removeObject:query];
-                                               query = nil;
-
-                                               return;
-                                           }
-                                           
-                                       }
-                                       
-                                   }
-                                   
-                                   // if we got an error trying to make a basic query,
-                                   //  but as the session is supposed to be valid,
-                                   // Then the user may have removed the application on Facebook.
-                                   
-                                   // then, remove the store data about the session
-                                   [GRKTokenStore removeTokenWithName:accessTokenKey forGrabberType:grabberType];
-                                   [GRKTokenStore removeTokenWithName:expirationDateKey forGrabberType:grabberType];
-                                   
-
+                    
                                    if (connectedBlock != nil ){
                                        connectedBlock(NO);
                                    }
@@ -365,8 +245,8 @@ static NSString * expirationDateKey = @"ExpirationDateKey";
  */
 -(BOOL) canHandleURL:(NSURL*)url;
 {
-    
-    return ( [[url scheme] isEqualToString:[NSString stringWithFormat:@"fb%@",[GRKCONFIG facebookAppId]]] ) ;
+    // in FB SDK, you need to do it in AppDelegate, don't try to do it inside GrabKit
+    return NO;
     
 }
 
@@ -374,9 +254,7 @@ static NSString * expirationDateKey = @"ExpirationDateKey";
  */
 -(void) handleOpenURL:(NSURL*)url; 
 {
-
-    [FBSession.activeSession handleOpenURL:url];
-    
+    // don't do anything here.  do it manually in AppDelegate to handle FB SDK URL
 }
 
 

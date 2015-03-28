@@ -23,13 +23,10 @@
 
 
 #import <Foundation/Foundation.h>
-#import <FacebookSDK/FBRequest.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface GRKFacebookSingleton : NSObject {
    
-    FBSession * facebookSession;
-    id sessionDelegate;
-
     // The user's locale, according to Facebook's settings, like "en_US"
     // This data is needed to have properly localized results from Facebook
     // Refer to http://developers.facebook.com/docs/internationalization/
@@ -38,7 +35,6 @@
 }
 
 @property (nonatomic, strong) NSString * userLocale;
-@property (nonatomic, strong) FBSession * facebookSession;
 
 /** @name  Getting the Share GRKFacebookSingleton */
 

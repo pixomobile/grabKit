@@ -33,8 +33,6 @@
 #import "GRKServiceGrabber+usernameAndProfilePicture.h"
 #import "GRKDeviceGrabber.h"
 
-#import <FacebookSDK/FacebookSDK.h>
-
 #import "AsyncURLConnection.h"
 
 
