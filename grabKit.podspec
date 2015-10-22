@@ -32,11 +32,9 @@ Pod::Spec.new do |s|
   s.ios.resource_bundle = { 'GrabKitBundle' => ['grabKit/grabKit/GrabKitPicker/Resources/*', 'grabKit/grabKit/**/*.{xib}']}
 
   s.dependency 'FBSDKCoreKit'
-  s.dependency 'ISO8601DateFormatter', '~> 0.6'
-  s.dependency 'MBProgressHUD', '~> 0.6'
-  s.dependency 'objectiveflickr', '~> 2.0.2'
-  s.dependency 'GData', '0.0.1'
-  s.dependency 'gtm-oauth2', '~> 0.1.0'
+  s.dependency 'ISO8601DateFormatter'
+  s.dependency 'MBProgressHUD'
+  s.dependency 'objectiveflickr'
   s.dependency 'AFNetworking'
 
   s.ios.frameworks = 'Accounts',  'AssetsLibrary', 'CFNetwork', 'QuartzCore', 'Security', 'Social', 'SystemConfiguration'
