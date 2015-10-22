@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "grabKit"
-  s.version      = "1.4.2"
+  s.version      = "1.4.3"
   s.summary      = "Drop-in iOS component to easily import photos from Facebook, FlickR, Instagram, Picasa, and more."
   s.description  = <<-DESC
 				GrabKit allows you to retrieve photos from  :
@@ -18,12 +18,9 @@ Pod::Spec.new do |s|
 
   s.author       = { "Pierre-Olivier Simonard" => "pierre.olivier.simonard@gmail.com" }
   
-  s.source       = { :git => "https://github.com/pierrotsmnrd/grabKit.git", :tag => "v1.4.1" }
+  s.source       = { :git => "https://github.com/pixomobile/grabKit.git", :tag => 'v1.4.3' }
 
-
-  s.platform = :ios, '6.0'
-
-  s.requires_arc = true
+  s.requires_arc = false
   
   s.source_files = 'grabKit/grabKit/**/*.{h,m}'
   

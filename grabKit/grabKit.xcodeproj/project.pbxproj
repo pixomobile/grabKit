@@ -970,6 +970,7 @@
 				5F3C2B4715B9F7FC008D894A /* Frameworks */,
 				5F3C2B4815B9F7FC008D894A /* Resources */,
 				35F2F578A3DC7A67D681D5BE /* Copy Pods Resources */,
+				627107B21C27333D4714042F /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1153,6 +1154,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		627107B21C27333D4714042F /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		7953975158B56757310E7CB4 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
