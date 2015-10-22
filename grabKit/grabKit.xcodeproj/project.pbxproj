@@ -178,7 +178,20 @@
 		5FF1FF3715BF21FF00EF2CE4 /* GRKServiceQueryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F3C2D0915B9F945008D894A /* GRKServiceQueryProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FF1FF3815BF21FF00EF2CE4 /* GRKTokenStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F3C2D0B15B9F945008D894A /* GRKTokenStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5FF1FF3915BF21FF00EF2CE4 /* GRKTokenStoreUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F3C2D0D15B9F945008D894A /* GRKTokenStoreUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D0236C171BD86AB300AE06ED /* libAFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C0B1BD86AB300AE06ED /* libAFNetworking.a */; };
+		D0236C181BD86AB300AE06ED /* libBolts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C0C1BD86AB300AE06ED /* libBolts.a */; };
+		D0236C191BD86AB300AE06ED /* libFBSDKCoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C0D1BD86AB300AE06ED /* libFBSDKCoreKit.a */; };
+		D0236C1A1BD86AB300AE06ED /* libFBSDKLoginKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C0E1BD86AB300AE06ED /* libFBSDKLoginKit.a */; };
+		D0236C1B1BD86AB300AE06ED /* libFBSDKShareKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C0F1BD86AB300AE06ED /* libFBSDKShareKit.a */; };
+		D0236C1C1BD86AB400AE06ED /* libGData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C101BD86AB300AE06ED /* libGData.a */; };
+		D0236C1D1BD86AB400AE06ED /* libgtm-http-fetcher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C111BD86AB300AE06ED /* libgtm-http-fetcher.a */; };
+		D0236C1E1BD86AB400AE06ED /* libgtm-oauth2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C121BD86AB300AE06ED /* libgtm-oauth2.a */; };
+		D0236C1F1BD86AB400AE06ED /* libISO8601DateFormatter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C131BD86AB300AE06ED /* libISO8601DateFormatter.a */; };
+		D0236C201BD86AB400AE06ED /* libMBProgressHUD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C141BD86AB300AE06ED /* libMBProgressHUD.a */; };
+		D0236C211BD86AB400AE06ED /* libNVUIGradientButton.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C151BD86AB300AE06ED /* libNVUIGradientButton.a */; };
+		D0236C221BD86AB400AE06ED /* libobjectiveflickr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0236C161BD86AB300AE06ED /* libobjectiveflickr.a */; };
 		D0DD9F9E1BD802FA00E2CE56 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0DD9F9D1BD802FA00E2CE56 /* GTMOAuth2ViewTouch.xib */; };
+		F817D265D0BF616B0FC846C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13833CE36660AC48324BD1F5 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +212,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13833CE36660AC48324BD1F5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F21A888182E1DC800721AFD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5F28F80115CE733200E0E64D /* GRKFacebookBatchQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRKFacebookBatchQuery.h; sourceTree = "<group>"; };
 		5F28F80215CE733300E0E64D /* GRKFacebookBatchQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRKFacebookBatchQuery.m; sourceTree = "<group>"; };
@@ -374,7 +388,21 @@
 		5FEE8C1816FC3C55002C995B /* GRKFlickrSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRKFlickrSingleton.m; sourceTree = "<group>"; };
 		5FEE9DEB15DF6CC900C44501 /* GRKPicasaQueriesQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRKPicasaQueriesQueue.h; sourceTree = "<group>"; };
 		5FEE9DEC15DF6CC900C44501 /* GRKPicasaQueriesQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRKPicasaQueriesQueue.m; sourceTree = "<group>"; };
+		6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D0236C0B1BD86AB300AE06ED /* libAFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAFNetworking.a; path = "Pods/../build/Debug-iphoneos/libAFNetworking.a"; sourceTree = "<group>"; };
+		D0236C0C1BD86AB300AE06ED /* libBolts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBolts.a; path = "Pods/../build/Debug-iphoneos/libBolts.a"; sourceTree = "<group>"; };
+		D0236C0D1BD86AB300AE06ED /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKCoreKit.a; path = "Pods/../build/Debug-iphoneos/libFBSDKCoreKit.a"; sourceTree = "<group>"; };
+		D0236C0E1BD86AB300AE06ED /* libFBSDKLoginKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKLoginKit.a; path = "Pods/../build/Debug-iphoneos/libFBSDKLoginKit.a"; sourceTree = "<group>"; };
+		D0236C0F1BD86AB300AE06ED /* libFBSDKShareKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFBSDKShareKit.a; path = "Pods/../build/Debug-iphoneos/libFBSDKShareKit.a"; sourceTree = "<group>"; };
+		D0236C101BD86AB300AE06ED /* libGData.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGData.a; path = "Pods/../build/Debug-iphoneos/libGData.a"; sourceTree = "<group>"; };
+		D0236C111BD86AB300AE06ED /* libgtm-http-fetcher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgtm-http-fetcher.a"; path = "Pods/../build/Debug-iphoneos/libgtm-http-fetcher.a"; sourceTree = "<group>"; };
+		D0236C121BD86AB300AE06ED /* libgtm-oauth2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgtm-oauth2.a"; path = "Pods/../build/Debug-iphoneos/libgtm-oauth2.a"; sourceTree = "<group>"; };
+		D0236C131BD86AB300AE06ED /* libISO8601DateFormatter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libISO8601DateFormatter.a; path = "Pods/../build/Debug-iphoneos/libISO8601DateFormatter.a"; sourceTree = "<group>"; };
+		D0236C141BD86AB300AE06ED /* libMBProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMBProgressHUD.a; path = "Pods/../build/Debug-iphoneos/libMBProgressHUD.a"; sourceTree = "<group>"; };
+		D0236C151BD86AB300AE06ED /* libNVUIGradientButton.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libNVUIGradientButton.a; path = "Pods/../build/Debug-iphoneos/libNVUIGradientButton.a"; sourceTree = "<group>"; };
+		D0236C161BD86AB300AE06ED /* libobjectiveflickr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libobjectiveflickr.a; path = "Pods/../build/Debug-iphoneos/libobjectiveflickr.a"; sourceTree = "<group>"; };
 		D0DD9F9D1BD802FA00E2CE56 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GTMOAuth2ViewTouch.xib; path = grabKit/grabKitDemo/GTMOAuth2ViewTouch.xib; sourceTree = "<group>"; };
+		FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +410,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0236C171BD86AB300AE06ED /* libAFNetworking.a in Frameworks */,
+				D0236C181BD86AB300AE06ED /* libBolts.a in Frameworks */,
+				D0236C191BD86AB300AE06ED /* libFBSDKCoreKit.a in Frameworks */,
+				D0236C1A1BD86AB300AE06ED /* libFBSDKLoginKit.a in Frameworks */,
+				D0236C1B1BD86AB300AE06ED /* libFBSDKShareKit.a in Frameworks */,
+				D0236C1C1BD86AB400AE06ED /* libGData.a in Frameworks */,
+				D0236C1D1BD86AB400AE06ED /* libgtm-http-fetcher.a in Frameworks */,
+				D0236C1E1BD86AB400AE06ED /* libgtm-oauth2.a in Frameworks */,
+				D0236C1F1BD86AB400AE06ED /* libISO8601DateFormatter.a in Frameworks */,
+				D0236C201BD86AB400AE06ED /* libMBProgressHUD.a in Frameworks */,
+				D0236C211BD86AB400AE06ED /* libNVUIGradientButton.a in Frameworks */,
+				D0236C221BD86AB400AE06ED /* libobjectiveflickr.a in Frameworks */,
 				5F990C461702F41000B89A7B /* GrabKitLib.a in Frameworks */,
 				5F8E24AA16A7F8660090F93B /* Accounts.framework in Frameworks */,
 				5F8E24AB16A7F8660090F93B /* AdSupport.framework in Frameworks */,
@@ -394,6 +434,7 @@
 				5F3C2B4F15B9F7FC008D894A /* UIKit.framework in Frameworks */,
 				5F3C2B5115B9F7FC008D894A /* Foundation.framework in Frameworks */,
 				5F3C2B5315B9F7FC008D894A /* CoreGraphics.framework in Frameworks */,
+				F817D265D0BF616B0FC846C5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +466,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34D801E2FAE1421A8A10B6BE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */,
+				6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		5F3C2B3F15B9F7FC008D894A = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +484,7 @@
 				5FC592FC16FCDAA500ABDF45 /* GrabKitTests */,
 				5F3C2B4D15B9F7FC008D894A /* Frameworks */,
 				5F3C2B4B15B9F7FC008D894A /* Products */,
+				34D801E2FAE1421A8A10B6BE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -451,6 +502,18 @@
 		5F3C2B4D15B9F7FC008D894A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0236C0B1BD86AB300AE06ED /* libAFNetworking.a */,
+				D0236C0C1BD86AB300AE06ED /* libBolts.a */,
+				D0236C0D1BD86AB300AE06ED /* libFBSDKCoreKit.a */,
+				D0236C0E1BD86AB300AE06ED /* libFBSDKLoginKit.a */,
+				D0236C0F1BD86AB300AE06ED /* libFBSDKShareKit.a */,
+				D0236C101BD86AB300AE06ED /* libGData.a */,
+				D0236C111BD86AB300AE06ED /* libgtm-http-fetcher.a */,
+				D0236C121BD86AB300AE06ED /* libgtm-oauth2.a */,
+				D0236C131BD86AB300AE06ED /* libISO8601DateFormatter.a */,
+				D0236C141BD86AB300AE06ED /* libMBProgressHUD.a */,
+				D0236C151BD86AB300AE06ED /* libNVUIGradientButton.a */,
+				D0236C161BD86AB300AE06ED /* libobjectiveflickr.a */,
 				5F990C471702F42200B89A7B /* Social.framework */,
 				5FD46C9316B9122800EE496F /* QuartzCore.framework */,
 				5F8E24A816A7F8660090F93B /* Accounts.framework */,
@@ -463,6 +526,7 @@
 				5F3C2E3315BA06E3008D894A /* SystemConfiguration.framework */,
 				5F3C2B4E15B9F7FC008D894A /* UIKit.framework */,
 				5F3C2B6615B9F7FC008D894A /* SenTestingKit.framework */,
+				13833CE36660AC48324BD1F5 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -901,9 +965,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5F3C2B7715B9F7FC008D894A /* Build configuration list for PBXNativeTarget "GrabKitDemo" */;
 			buildPhases = (
+				7953975158B56757310E7CB4 /* Check Pods Manifest.lock */,
 				5F3C2B4615B9F7FC008D894A /* Sources */,
 				5F3C2B4715B9F7FC008D894A /* Frameworks */,
 				5F3C2B4815B9F7FC008D894A /* Resources */,
+				35F2F578A3DC7A67D681D5BE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1047,6 +1113,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		35F2F578A3DC7A67D681D5BE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5FA4916015C3C9830000DADB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1072,6 +1153,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		7953975158B56757310E7CB4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1219,6 +1315,7 @@
 /* Begin XCBuildConfiguration section */
 		5F3C2B7515B9F7FC008D894A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1259,6 +1356,7 @@
 		};
 		5F3C2B7615B9F7FC008D894A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1292,6 +1390,7 @@
 		};
 		5F3C2B7815B9F7FC008D894A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1302,8 +1401,11 @@
 					"$(TARGET_BUILD_DIR)/include/GrabKitLib",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/GrabKit/GrabKitDemo/Supporting Files/grabKitDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
 					"-lxml2",
@@ -1319,6 +1421,7 @@
 		};
 		5F3C2B7915B9F7FC008D894A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1329,8 +1432,11 @@
 					"$(TARGET_BUILD_DIR)/include/GrabKitLib",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/GrabKit/GrabKitDemo/Supporting Files/grabKitDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
 					"-lxml2",
@@ -1346,6 +1452,7 @@
 		};
 		5F89F1CF15BFC18B00B8739D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1368,6 +1475,7 @@
 		};
 		5F89F1D015BFC18B00B8739D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1390,6 +1498,7 @@
 		};
 		5FC5930716FCDAA500ABDF45 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1411,6 +1520,7 @@
 		};
 		5FC5930816FCDAA500ABDF45 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1431,7 +1541,9 @@
 		};
 		5FD399A015BF1E2B0063542C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA5A455AA60E03CB356F7016 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/GrabKitLib.dst;
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1451,7 +1563,9 @@
 		};
 		5FD399A115BF1E2B0063542C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E31D84777C40DDF39D14AC6 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/GrabKitLib.dst;
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
