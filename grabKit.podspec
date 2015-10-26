@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   
   s.source       = { :git => "https://github.com/pixomobile/grabKit.git", :tag => 'v1.4.3' }
 
-  s.requires_arc = false
+  s.requires_arc = true
   
   s.source_files = 'grabKit/grabKit/**/*.{h,m}'
   
