@@ -50,7 +50,7 @@ static GRKPicasaSingleton * sharedPicasa = nil;
     if ((self = [super init]) != nil){
         
         service = [[GDataServiceGooglePhotos alloc] init];
-        [service setShouldCacheDatedData:YES];
+        [service setShouldCacheResponseData:YES];
 		userEmailAdress = nil;        
     }
     
