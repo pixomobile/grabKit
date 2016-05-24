@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
   s.author       = { "Pierre-Olivier Simonard" => "pierre.olivier.simonard@gmail.com" }
   
-  s.source       = { :git => "https://github.com/pixomobile/grabKit.git", :tag => 'v1.4.4' }
+  s.source       = { :git => "https://github.com/pixomobile/grabKit.git"}
 
   s.requires_arc = true
   
